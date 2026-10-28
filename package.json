@@ -1,0 +1,10 @@
+{
+  "name": "erome-media-browser",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Navegador de álbuns com parser HTML e interface responsiva",
+  "type": "module",
+  "scripts": { "start": "node server.js", "dev": "node --watch server.js", "test": "node --test" },
+  "dependencies": { "cheerio": "^1.0.0", "express": "^4.21.2" },
+  "engines": { "node": ">=18" }
+}

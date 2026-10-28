@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101114"><title>Navegador de mídias</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#/" aria-label="Início"><span class="brand-mark">M</span><span>midia<span class="brand-dot">.</span></span></a>
+    <nav class="utility-nav" aria-label="Navegação rápida">
+      <button class="utility-tab" data-section="favorites" type="button">Favoritos</button>
+      <button class="utility-tab" data-section="history" type="button">Histórico</button>
+      <button class="utility-tab" data-section="settings" type="button">Config</button>
+    </nav>
+    <form id="search-form" class="search"><span aria-hidden="true">⌕</span><input id="search-input" type="search" maxlength="160" placeholder="Pesquisar álbuns…" autocomplete="off"><button type="submit">Buscar</button></form>
+    <div id="search-suggestions" class="search-suggestions" aria-label="Sugestões de pesquisa"></div>
+    <a class="source-link" href="https://www.erome.com/explore" target="_blank" rel="noreferrer">Origem ↗</a>
+  </header>
+  <main class="main">
+    <section id="listing-view">
+      <div class="intro"><div><p class="eyebrow">CATÁLOGO DE MÍDIA</p><h1 id="page-title">Explore</h1><p id="page-subtitle">Descubra álbuns publicados na origem.</p></div><div class="section-tabs" role="tablist" aria-label="Seções"><button data-section="hot" class="tab active">Hot</button><button data-section="new" class="tab">New</button><button data-section="videos-br" class="tab">Vídeos BR</button><button data-section="ttok" class="tab">TTOK</button><button data-section="ttok-br" class="tab">TTOK BR</button></div></div>
+      <div class="toolbar"><span id="result-label">Carregando álbuns…</span><div class="toolbar-controls"><label class="sort-control">Ordenar <select id="sort-select"><option value="relevance">Ordem da origem</option><option value="views">Mais vistos</option></select></label><div class="filters result-mode" aria-label="Modo de resultados"><button class="mode-toggle active" data-mode="albums">Álbuns</button><button class="mode-toggle" data-mode="media">Mídias</button></div><div id="listing-album-filters" class="filters" aria-label="Filtrar álbuns"><button class="filter active" data-filter="all">Todos</button><button class="filter" data-filter="photo">Com fotos</button><button class="filter" data-filter="video">Com vídeos</button><button class="filter" data-filter="multi-video">2+ vídeos</button><button class="filter" data-filter="unknown">Sem tipo</button></div></div></div>
+      <div id="query-filters" class="filters query-filters" aria-label="Filtros da pesquisa" hidden>
+        <button class="query-order active" data-order="relevance">Todas</button>
+        <button class="query-order" data-order="new">New</button>
+        <button class="query-order" data-order="views">Popular</button>
+        <span class="filter-divider" aria-hidden="true"></span>
+        <button class="filter active" data-filter="all">Todas as mídias</button>
+        <button class="filter" data-filter="photo">Com fotos</button>
+        <button class="filter" data-filter="video">Com vídeos</button>
+        <button class="filter" data-filter="multi-video">2+ vídeos</button>
+        <button class="filter" data-filter="unknown">Sem tipo</button>
+      </div>
+      <div id="video-topic-toolbar" class="filters topic-filters" aria-label="Tópicos vídeos BR" hidden>
+        <button class="video-topic active" data-topic="all">Todos</button>
+        <button class="video-topic" data-topic="vazados-brasil">Vazados Brasil</button>
+        <button class="video-topic" data-topic="caiu-na-net-br">Caiu na Net BR</button>
+        <button class="video-topic" data-topic="vazadas-do-insta">Vazadas do Insta</button>
+      </div>
+      <div id="settings-panel" class="settings-panel" hidden>
+        <div class="settings-header">
+          <h2>Configurações locais</h2>
+          <button class="close-panel" type="button" data-close-panel="settings">Fechar</button>
+        </div>
+        <div class="settings-columns">
+          <div>
+            <h3>Reprodução</h3>
+            <label class="setting-item"><input id="setting-autoplay-ttok" type="checkbox" checked> Reproduzir TTOK automaticamente ao entrar na viewport</label>
+            <label class="setting-item"><input id="setting-sound-ttok" type="checkbox" checked> Iniciar vídeos TTOK com áudio</label>
+            <label class="setting-item"><input id="setting-compact-cards" type="checkbox"> Compactar cartões em telas pequenas</label>
+          </div>
+          <div>
+            <h3>Diagnóstico</h3>
+            <ul id="diagnostic-list" class="mini-list"></ul>
+          </div>
+          <div>
+            <h3>Favoritos</h3>
+            <ul id="favorite-list" class="mini-list"></ul>
+          </div>
+          <div>
+            <h3>Histórico <button id="clear-history" class="panel-action" type="button">Limpar</button></h3>
+            <ul id="history-list" class="mini-list"></ul>
+          </div>
+        </div>
+      </div>
+      <div id="status" class="status" role="status" aria-live="polite">Conectando à origem…</div>
+      <button id="feed-retry" class="feed-retry" type="button" hidden>Tentar novamente</button>
+      <div id="album-grid" class="album-grid"></div>
+      <nav id="pagination" class="pagination" aria-label="Paginação" hidden><button id="prev-page">← Anterior</button><span id="page-number">Página 1</span><button id="next-page">Próxima →</button></nav>
+    </section>
+    <section id="album-view" hidden>
+      <button id="back-button" class="back-button">← Voltar aos resultados</button>
+      <div class="album-heading"><div><p class="eyebrow">VISUALIZANDO ÁLBUM</p><h1 id="album-title">Álbum</h1><p id="album-user"></p><p id="album-description" class="album-description"></p></div><a id="album-source" class="source-link" target="_blank" rel="noreferrer">Abrir na origem ↗</a></div>
+      <div id="album-tags" class="album-tags" aria-label="Tags do álbum"></div>
+      <div class="toolbar"><span id="media-count"></span><div class="filters media-filters" aria-label="Filtrar mídias"><button class="media-filter filter active" data-filter="all">Todas</button><button class="media-filter filter" data-filter="photo">Fotos</button><button class="media-filter filter" data-filter="video">Vídeos</button></div></div>
+      <div id="media-grid" class="media-grid"></div>
+      <section id="comments-section" class="comments-section" hidden>
+        <div class="related-heading"><p class="eyebrow">COMENTÁRIOS</p><h2>Discussão pública</h2></div>
+        <div id="comments-list"></div>
+      </section>
+      <div id="album-sequence" class="album-sequence" aria-live="polite"></div>
+      <div id="album-sequence-sentinel" class="album-sequence-sentinel" aria-hidden="true"></div>
+      <div id="album-sequence-status" class="status" role="status" aria-live="polite" hidden></div>
+      <button id="album-sequence-retry" class="feed-retry" type="button" hidden>Tentar carregar o próximo álbum</button>
+    </section>
+  </main>
+  <footer>Interface independente · Os dados são carregados do HTML público da origem. <span>Respeite os direitos e as regras do conteúdo original.</span></footer>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
